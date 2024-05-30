@@ -19,5 +19,10 @@ public class Treino {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String dia_semana;
+    private String diaSemana;
+
+    public Treino(String nome, String diaSemana) {
+        this.nome = nome;
+        this.diaSemana = diaSemana;
+    }
 }

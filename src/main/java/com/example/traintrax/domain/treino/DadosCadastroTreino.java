@@ -7,6 +7,6 @@ public record DadosCadastroTreino(
         String nome,
 
         @NotBlank
-        String dia_semana
+        String diaSemana
 ) {
 }

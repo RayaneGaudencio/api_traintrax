@@ -6,6 +6,6 @@ public record DadosTreino(
         String dia_semana
 ) {
     public DadosTreino(Treino treino) {
-        this(treino.getId(), treino.getNome(), treino.getDia_semana());
+        this(treino.getId(), treino.getNome(), treino.getDiaSemana());
     }
 }
