@@ -1,6 +1,7 @@
 package com.example.traintrax.controller;
 
 import com.example.traintrax.domain.treino.*;
+import com.example.traintrax.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class TreinoController {
         try {
             DadosTreino dadosTreino = treinoService.editar(dados);
             return ResponseEntity.ok(dadosTreino);
-        } catch (TreinoNotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao editar os dados do treino.");
