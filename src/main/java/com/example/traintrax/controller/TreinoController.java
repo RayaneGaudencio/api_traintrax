@@ -1,12 +1,10 @@
 package com.example.traintrax.controller;
 
-import com.example.traintrax.domain.treino.DadosCadastroTreino;
-import com.example.traintrax.domain.treino.DadosTreino;
-import com.example.traintrax.domain.treino.Treino;
-import com.example.traintrax.domain.treino.TreinoRepository;
+import com.example.traintrax.domain.treino.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +18,9 @@ public class TreinoController {
     @Autowired
     private TreinoRepository treinoRepository;
 
+    @Autowired
+    private TreinoService treinoService;
+
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTreino dados) {
@@ -28,5 +29,17 @@ public class TreinoController {
 
         return ResponseEntity.ok(new DadosTreino(treino));
     }
-;
+
+    @PostMapping("/editar")
+    @Transactional
+    public ResponseEntity editar(@RequestBody @Valid DadosEditarTreino dados) {
+        try {
+            DadosTreino dadosTreino = treinoService.editar(dados);
+            return ResponseEntity.ok(dadosTreino);
+        } catch (TreinoNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao editar os dados do treino.");
+        }
+    }
 }
