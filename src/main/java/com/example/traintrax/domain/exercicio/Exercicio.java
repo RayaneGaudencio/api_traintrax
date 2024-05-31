@@ -1,6 +1,7 @@
 package com.example.traintrax.domain.exercicio;
 
 
+import com.example.traintrax.domain.treino.Treino;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -26,4 +27,15 @@ public class Exercicio {
 
     @NotBlank
     String repeticoes;
+
+    @OneToOne
+    @JoinColumn(name = "treino_id")
+    private Treino treino;
+
+    public Exercicio(String nome, String series, String repeticoes, Treino treino) {
+        this.nome = nome;
+        this.series = series;
+        this.repeticoes = repeticoes;
+        this.treino = treino;
+    }
 }

@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public record DadosCadastroExercicio(
 
+        Long idTreino,
+
         @NotBlank
         String nome,
 
