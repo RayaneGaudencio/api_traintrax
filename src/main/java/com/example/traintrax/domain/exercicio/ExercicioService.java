@@ -47,4 +47,15 @@ public class ExercicioService {
         DadosExercicio dadosExercicio = new DadosExercicio(exercicioToUpdate.orElse(null));
         return dadosExercicio;
     }
+
+    public void excluirExercicio(Long id) {
+        Optional<Exercicio> exercicioToUpdate = exercicioRepository.findById(id);
+
+        Exercicio exercicio = exercicioToUpdate.orElse(null);
+        if (exercicio == null) {
+            throw new NotFoundException("ID do exercício não está cadastrado no banco de dados: " + id);
+        }
+
+        exercicioRepository.deleteById(id);
+    }
 }
