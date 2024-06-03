@@ -1,7 +1,7 @@
 package com.example.traintrax.controller;
 
 import com.example.traintrax.domain.exercicio.*;
-import com.example.traintrax.domain.treino.TreinoNotFoundException;
+import com.example.traintrax.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,23 @@ public class ExercicioController {
         try {
             DadosExercicio exercicio = exercicioService.cadastrarExercicio(dados);
             return ResponseEntity.ok(exercicio);
-        } catch (TreinoNotFoundException e) {
+        } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao cadastrar o exercício.");
+        }
+    }
+
+    @PostMapping("/editar")
+    @Transactional
+    public ResponseEntity editar(@RequestBody @Valid DadosEditarExercicio dados) {
+        try {
+            DadosExercicio exercicio = exercicioService.editarExercicio(dados);
+            return ResponseEntity.ok(exercicio);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao editar o exercício.");
         }
     }
 }

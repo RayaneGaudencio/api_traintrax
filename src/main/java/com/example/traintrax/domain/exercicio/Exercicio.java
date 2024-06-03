@@ -28,7 +28,7 @@ public class Exercicio {
     @NotBlank
     String repeticoes;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "treino_id")
     private Treino treino;
 
