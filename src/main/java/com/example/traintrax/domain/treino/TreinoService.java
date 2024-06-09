@@ -1,15 +1,22 @@
 package com.example.traintrax.domain.treino;
 
 
+import com.example.traintrax.domain.exercicio.Exercicio;
+import com.example.traintrax.domain.exercicio.ExercicioRepository;
 import com.example.traintrax.exceptions.NotFoundException;
+import com.example.traintrax.exceptions.NotFoundExercicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TreinoService {
 
     @Autowired
     TreinoRepository treinoRepository;
+    @Autowired
+    private ExercicioRepository exercicioRepository;
 
     public DadosTreino editar(DadosEditarTreino dados) {
         var treinoCadastrado = treinoRepository.findAllById(dados.id());
@@ -24,4 +31,18 @@ public class TreinoService {
 
         return dadosTreino;
     }
+
+    public TreinoComExerciciosDTO listarTreinoComExercicios(Long id) {
+        Treino treino = treinoRepository.findAllById(id);
+        List<Exercicio> exercicios = exercicioRepository.findByTreinoId(id);
+
+        if (treino == null) {
+            throw new NotFoundException("Não foi encontrado treino com este ID: " + id);
+        } else if (exercicios.isEmpty()) {
+            throw new NotFoundExercicios("Não foram encontrados exercícios para o treino com o ID: " + id);
+        }
+
+        return new TreinoComExerciciosDTO(treino, exercicios);
+    }
+
 }

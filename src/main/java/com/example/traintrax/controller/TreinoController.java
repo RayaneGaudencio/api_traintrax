@@ -1,7 +1,10 @@
 package com.example.traintrax.controller;
 
+import com.example.traintrax.domain.exercicio.Exercicio;
+import com.example.traintrax.domain.exercicio.ExercicioRepository;
 import com.example.traintrax.domain.treino.*;
 import com.example.traintrax.exceptions.NotFoundException;
+import com.example.traintrax.exceptions.NotFoundExercicios;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ public class TreinoController {
 
     @Autowired
     private TreinoService treinoService;
+    @Autowired
+    private ExercicioRepository exercicioRepository;
 
     @PostMapping
     @Transactional
@@ -51,6 +56,19 @@ public class TreinoController {
             return ResponseEntity.ok(treinos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/listar_exercicio/{id}")
+    @Transactional
+    public ResponseEntity listarTreinoPorId(@PathVariable("id") Long id) {
+        try {
+            TreinoComExerciciosDTO treinoComExerciciosDTO = treinoService.listarTreinoComExercicios(id);
+            return ResponseEntity.ok(treinoComExerciciosDTO);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado treino com este ID: " + id);
+        } catch (NotFoundExercicios e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foram encontrados Exercícios para este treino: " + id);
         }
     }
 }
