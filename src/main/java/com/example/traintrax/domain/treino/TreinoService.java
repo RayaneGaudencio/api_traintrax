@@ -42,4 +42,14 @@ public class TreinoService {
         return new TreinoComExerciciosDTO(treino, exercicios);
     }
 
+    public void excluirTreino(Long id) {
+        Treino treino = treinoRepository.findAllById(id);
+
+        if (treino == null) {
+            throw new NotFoundException("Não foi encontrado treino com este ID: " + id);
+        } else {
+            treinoRepository.deleteById(id);
+            exercicioRepository.deleteByTreinoId(id);
+        }
+    }
 }

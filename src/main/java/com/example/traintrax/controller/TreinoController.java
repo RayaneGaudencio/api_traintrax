@@ -5,6 +5,7 @@ import com.example.traintrax.domain.treino.*;
 import com.example.traintrax.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.aspectj.lang.annotation.DeclareError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,19 @@ public class TreinoController {
             return ResponseEntity.ok(treinoComExerciciosDTO);
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrado treino com este ID: " + id);
+        }
+    }
+
+    @DeleteMapping("/excluir/{id}")
+    @Transactional
+    public ResponseEntity excluirTreino(@PathVariable("id") Long id) {
+        try {
+            treinoService.excluirTreino(id);
+            return ResponseEntity.ok("Treino excluído.");
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao excluir o treino.");
         }
     }
 }

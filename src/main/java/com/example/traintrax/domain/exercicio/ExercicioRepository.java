@@ -8,4 +8,6 @@ public interface ExercicioRepository extends JpaRepository<Exercicio, Long> {
     Optional<Exercicio> findById(Long id);
 
     List<Exercicio> findByTreinoId(Long treinoId);
+
+    void deleteByTreinoId(Long treinoId);
 }

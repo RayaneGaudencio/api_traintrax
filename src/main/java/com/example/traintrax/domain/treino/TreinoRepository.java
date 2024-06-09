@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface TreinoRepository extends JpaRepository<Treino, Long> {
     Treino findAllById(Long idTreino);
+
+    void deleteById(Long id);
 }
