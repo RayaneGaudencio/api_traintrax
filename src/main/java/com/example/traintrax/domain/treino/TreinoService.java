@@ -4,7 +4,6 @@ package com.example.traintrax.domain.treino;
 import com.example.traintrax.domain.exercicio.Exercicio;
 import com.example.traintrax.domain.exercicio.ExercicioRepository;
 import com.example.traintrax.exceptions.NotFoundException;
-import com.example.traintrax.exceptions.NotFoundExercicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +37,6 @@ public class TreinoService {
 
         if (treino == null) {
             throw new NotFoundException("Não foi encontrado treino com este ID: " + id);
-        } else if (exercicios.isEmpty()) {
-            throw new NotFoundExercicios("Não foram encontrados exercícios para o treino com o ID: " + id);
         }
 
         return new TreinoComExerciciosDTO(treino, exercicios);
